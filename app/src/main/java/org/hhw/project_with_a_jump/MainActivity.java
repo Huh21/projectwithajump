@@ -6,6 +6,7 @@ import android.Manifest; // 앱이 시스템 또는 다른 앱의 보호된 부�
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -17,6 +18,7 @@ import androidx.core.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,27 +28,45 @@ import java.util.List;
 import java.util.Locale;
 
 
-public class MainActivity extends AppCompatActivity
-{
+public class MainActivity extends AppCompatActivity {
+    private boolean saveData;
+    private SharedPreferences checkData;
+
     private GpsTracker gpsTracker;
 
     public static final String LOG_TAG = MainActivity.class.getSimpleName();
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int PERMISSIONS_REQUEST_CODE = 100;
-    String[] REQUIRED_PERMISSIONS  = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
+    String[] REQUIRED_PERMISSIONS = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
     // fine_location : coarse보다 더 정확한 위치 제공, coarse_location : 도시 블록 내에 위치 정확성 제공
 
+    private TextView textview_address;
+    private TextView user_name;
+    private TextView welcome;
+    private EditText editText;
+    private Button ShowLocationButton;
+    private Button FindLocationButton;
+    private Button logoutBtn;
+    private Button listBtn;
+    private Button modifyBtn;
+    private CheckBox auto_check;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final TextView textview_address = (TextView) findViewById(R.id.textview_address); // 사용자의 현재 위치 도로명주소
-        final TextView user_name = (TextView) findViewById(R.id.user_name); // 사용자명
-        final TextView welcome = (TextView) findViewById(R.id.welcome);
+        textview_address = (TextView) findViewById(R.id.textview_address); // 사용자의 현재 위치 도로명주소
+        user_name = (TextView) findViewById(R.id.user_name); // 사용자명
+        welcome = (TextView) findViewById(R.id.welcome);
+        editText = (EditText) findViewById(R.id.editText);
 
-        EditText editText = (EditText) findViewById(R.id.editText);
+        ShowLocationButton = (Button) findViewById(R.id.show); // 시설 찾기
+        FindLocationButton = (Button) findViewById(R.id.find); // 직접 검색
+        logoutBtn = (Button) findViewById(R.id.logoutBtn); // 로그아웃
+        listBtn = (Button) findViewById(R.id.listBtn); // 명부 입장 기록 리스트
+        modifyBtn = (Button) findViewById(R.id.modifyBtn); // 사용자 정보 수정
+        auto_check = (CheckBox) findViewById(R.id.auto_check); // 자동 입장 체크
 
         if (!checkLocationServicesStatus()) { // GPS 활성화가 되어 있지 않다면
             showDialogForLocationServiceSetting();
@@ -56,63 +76,73 @@ public class MainActivity extends AppCompatActivity
         }
 
         //Intent intentFromCertification = getIntent(); // 본인인증 화면으로부터 사용자명 받아오기
-        //user_name.setText(intentFromCertification.getStringExtra("사용자명"));
+        //user_name.setText(intentFromCertification.getStringExtra("user_name"));
 
         //Intent intentFromOwner = getIntent(); // 등록된 사업자 리스트 받아오기
         // Facility facility = (Facility)intentFromOwner.getSerializableExtra("facility");
 
-        Button ShowLocationButton = (Button) findViewById(R.id.show); // 시설 찾기
-        Button FindLocationButton = (Button) findViewById(R.id.find); // 직접 검색
-
-        ShowLocationButton.setOnClickListener(new View.OnClickListener()
-        {
+        ShowLocationButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View arg0)
-            {
+            public void onClick(View arg0) {
                 textview_address.setText(getGpsTracker()); // 사용자의 현재 위치 보여줌
 
                 String facilityName = findFacility(getGpsTracker(), "show");
 
                 if ((facilityName).equals("not found")) {
                     Toast.makeText(MainActivity.this, "현재 위치에 해당하는 시설을 찾을 수 없습니다.", Toast.LENGTH_LONG).show();
-                }
-                else {
+                } else {
                     // 현재 위치를 기반으로 명부를 가진 시설을 찾아서 시설명을 사용자에게 보여줌
-                    Toast.makeText(MainActivity.this, facilityName+" 입장", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.this, facilityName + " 입장", Toast.LENGTH_LONG).show();
 
                     // 해당 시설의 명부 화면으로 이동
-                    /*Intent secIntent = new Intent(this,.class);
-                    secIntent.putExtra("facilityName", facilityName);
-                    startActivity(secIntent); */
+                    /*Intent intent = new Intent(this,.class);
+                    intent.putExtra("facilityName", facilityName);
+                    startActivity(gintent); */
                 }
             }
         });
 
-        FindLocationButton.setOnClickListener(new View.OnClickListener()
-        {
+        FindLocationButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View arg0)
-            {
+            public void onClick(View arg0) {
                 String input = editText.getText().toString();
 
-                if(input.equals("")) { // 입력칸이 빈칸이라면
+                if (input.equals("")) { // 입력칸이 빈칸이라면
                     Toast.makeText(MainActivity.this, "시설명을 입력해주세요", Toast.LENGTH_LONG).show();
-                }
-                else {
+                } else {
                     String facilityName = findFacility(input, "find");
 
                     if ((facilityName).toString().equals("not found")) {
                         Toast.makeText(MainActivity.this, "해당 시설의 명부가 존재하지 않습니다.\n"
                                 + "담당자에게 문의하세요.", Toast.LENGTH_LONG).show();
-                    }
-                    else {
-                        Toast.makeText(MainActivity.this, facilityName+" 입장", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(MainActivity.this, facilityName + " 입장", Toast.LENGTH_LONG).show();
 
                         // 해당 시설의 명부 화면으로 이동
-                        /*Intent secIntent = new Intent(this,.class);
-                         secIntent.putExtra("facilityName", facilityName);
-                         startActivity(secIntent); */
+                        /*Intent intent = new Intent(this,.class);
+                        intent.putExtra("facilityName", facilityName);
+                        startActivity(intent); */
                     }
+                }
+            }
+        });
+
+        // 체크박스 값 유지
+        checkData = getSharedPreferences("checkData", MODE_PRIVATE);
+        load();
+
+        if (saveData) {
+            auto_check.setChecked(saveData);
+        }
+
+        auto_check.setOnClickListener(new CheckBox.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(auto_check.isChecked()) { // 자동 입장을 사용자가 선택했다면
+                    ShowLocationButton.callOnClick();
+                    save();
+                } else {
+                    save();
                 }
             }
         });
@@ -146,11 +176,10 @@ public class MainActivity extends AppCompatActivity
         return address;
     }
 
-    // onRequestPermissionsResult의 결과를 리턴받는 메소드
-
+     // onRequestPermissionsResult의 결과를 리턴받는 메소드
     public void onRequestPermssionsResult(int permsRequestCode,
-                                           @NonNull String[] permissions,
-                                           @NonNull int[] grandResults) {
+                                          @NonNull String[] permissions,
+                                          @NonNull int[] grandResults) {
 
         if (permsRequestCode == PERMISSIONS_REQUEST_CODE && grandResults.length == REQUIRED_PERMISSIONS.length) {
             // 요청 코드가 PERMISSIONS_REQUEST_CODE 이고, 요청한 퍼미션 개수만큼 수신되었다면
@@ -302,28 +331,39 @@ public class MainActivity extends AppCompatActivity
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
                 || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
     }
+
+    private void load() { // 설정값 호출
+        saveData = checkData.getBoolean("SAVE_CHECK_DATA", false);
+
+        if(saveData) {
+            ShowLocationButton.callOnClick(); // 시설 찾기 버튼의 이벤트가 실행됨
+        }
+    }
+
+    private void save() { // 설정값 저장
+        SharedPreferences.Editor editor = checkData.edit();
+
+        editor.putBoolean("SAVE_CHECK_DATA", auto_check.isChecked());
+        editor.apply();
+    }
+
         /*
     public String findFacility(String address) {
         // 시설 사업자 리스트 배열 변수와 getGpsTracker() 함수의 리턴값을 비교하여 해당 주소의 시설 명부가 있는지 확인
         Intent intent = getIntent(); // 시설 사업자 명부 데이터 수신
-
         ArrayList<facilityList> list = (ArrayList<facilityList>) intent.getSerializableExtra("list");
-
         facilityList findAddress = null;
-
         for (facilityList f : list) {
             // GPS로 확인한 사용자의 위치 정보를 통해 해당 시설의 출입 명부가 존재하는지 찾기
             if (f.equals(address)) {
                 findAddress = f;
                 Toast.makeText(MainActivity.this, findAddress.name + " 명부 입장", Toast.LENGTH_LONG).show();
                 facility = findAddress.name;
-
                 // 다음 화면으로 최종 시설 정보 전달
                 Intent secIntent = new Intent(this,.class);
                 secIntent.putExtra("facility", facility);
                 startActivity(secIntent);
                 return true;
-
             } else {
                 return false;
             }
@@ -339,15 +379,12 @@ public class MainActivity extends AppCompatActivity
         // 이 기능은 나중에 사용자가 자동으로 연결 버튼을 누르는 경우, 최초 1번만 제공됨
         if (!findAddress(address)) {
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-
             builder.setTitle("현재 위치에 해당하는\n" + "시설 명부가 존재하지 않습니다.");
-
             builder.setPositiveButton("닫기", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int id) {
                 }
             });
-
             builder.setNeutralButton("재검색", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int id) {
@@ -355,15 +392,11 @@ public class MainActivity extends AppCompatActivity
                     if (!findAddress(address)) {
                         Toast.makeText(MainActivity.this, "재검색에 실패하였습니다.\n"+
                                    "시설명을 직접 입력해주세요.", Toast.LENGTH_LONG).show();
-
                         AlertDialog.Builder builder2 = new AlertDialog.Builder(MainActivity.this);
-
                         builder2.setTitle("시설명 직접 입력");
                         builder2.setMessage("아래 예시와 같은 형식으로 시설명을 입력해주세요.\n" + "줄임말 X, 띄어쓰기 필수!");
-
                         EditText editText = (EditText)findViewById(R.id.editText);
                         //builder2.setView(editText);
-
                         builder2.setPositiveButton("검색", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
