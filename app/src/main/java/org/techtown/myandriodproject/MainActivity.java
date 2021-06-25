@@ -31,12 +31,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //툴바
+        // 툴바
         toolbar= findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        //현재시각
+        // 현재시각 불러오기
         handler= new Handler(){
             @Override
             public void handleMessage(Message msg){
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         t.start();
     }
 
-    //옵션 메뉴 관련 메소드
+    // 옵션 메뉴 관련 메소드
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.menu_button,menu);

@@ -17,7 +17,7 @@ public class SetUp extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_up);
 
-        //툴바
+        // 툴바
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -54,7 +54,7 @@ public class SetUp extends AppCompatActivity {
         });
     }
 
-    //툴바에 뒤로가기 버튼 설정
+    // 툴바에 뒤로가기 버튼 설정
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         if(item.getItemId()==android.R.id.home){
