@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <uses-feature android:name="android.hardware.camera"
         android:required="true" />
@@ -30,7 +31,7 @@
         </activity>
 
         <provider
-            android:authorities="org.techtown.myapplication.fileProvider"
+            android:authorities="${applicationId}"
             android:name="androidx.core.content.FileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
