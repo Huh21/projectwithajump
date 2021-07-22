@@ -10,8 +10,8 @@ import com.google.android.material.tabs.TabLayout;
 
 public class History extends AppCompatActivity {
     Toolbar toolbar;
-    Fragment1_Calendar fragment1;
-    Fragment2_Graph fragment2;
+    FragmentGraph1 fragment1;
+    FragmentGraph2 fragment2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +27,8 @@ public class History extends AppCompatActivity {
         // 기간별 기록 탭:
         // 한달(month; 해당 달의 일별 기록을 확인할 수 있는 (해당 달의) 캘린더가 보여짐)
         // 월별(year; 여러 달의 방문자수 변화를 한눈에 파악할 수 있는 그래프가 표시됨)
-        fragment1=new Fragment1_Calendar();
-        fragment2=new Fragment2_Graph();
+        fragment1=new FragmentGraph1();
+        fragment2=new FragmentGraph2();
         getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment1).commit();
 
         TabLayout tabs= findViewById(R.id.tabs);
