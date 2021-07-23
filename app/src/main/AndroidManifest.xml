@@ -1,45 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:tools="http://schemas.android.com/tools"
-package="org.techtown.myandriodproject">
-    package="org.techtown.afinal">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="org.techtown.myandriodproject">
 
-<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-<uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
-<uses-feature android:name="android.hardware.camera"
-    android:required="true" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
 
-<application
-    android:allowBackup="true"
-    android:icon="@mipmap/ic_launcher"
-    android:label="@string/app_name1"
-    android:roundIcon="@mipmap/ic_launcher_round"
-    android:supportsRtl="true"
-
-    android:theme="@style/Theme.MyAndriodProject">
-    <activity android:name=".FragmentGraph2"
-    tools:ignore="Instantiatable"/>
-    <activity android:name=".FragmentGraph1"
-        tools:ignore="Instantiatable" />
-    <activity android:name=".ChangeListableTime" />
-    <activity android:name=".ChangeOfficeHour" />
-    <activity android:name=".PersonalInfo" />
-    <activity android:name=".History" />
-    <activity android:name=".SetUp" />
-    <activity android:name=".MainActivity"/>
-
-        android:theme="@style/Theme.Final">
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name1"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.MyAndriodProject">
+        <activity android:name=".HomeScreen"></activity>
+        <activity
+            android:name=".FragmentGraph2"
+            tools:ignore="Instantiatable" />
+        <activity
+            android:name=".FragmentGraph1"
+            tools:ignore="Instantiatable" />
+        <activity android:name=".ChangeListableTime" />
+        <activity android:name=".ChangeOfficeHour" />
+        <activity android:name=".PersonalInfo" />
+        <activity android:name=".History" />
+        <activity android:name=".SetUp" />
         <activity android:name="org.techtown.afinal.RegisterActivity6" />
         <activity android:name="org.techtown.afinal.RegisterActivity5" />
         <activity android:name="org.techtown.afinal.RegisterActivity4" />
         <activity android:name="org.techtown.afinal.RegisterActivity3" />
         <activity android:name="org.techtown.afinal.RegisterActivity2" />
         <activity android:name="org.techtown.afinal.registerActivity" />
-        <activity android:exported="true"
-            android:name=".MainActivity"
-            tools:ignore="DuplicateActivity">
+        <activity
+            android:name="org.techtown.afinal.MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -48,8 +47,8 @@ package="org.techtown.myandriodproject">
         </activity>
 
         <provider
-            android:authorities="${applicationId}"
             android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -57,4 +56,5 @@ package="org.techtown.myandriodproject">
                 android:resource="@xml/external" />
         </provider>
     </application>
+
 </manifest>
