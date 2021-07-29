@@ -10,8 +10,10 @@ import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
+import org.techtown.myandriodproject.HomeScreen;
 import org.techtown.myandriodproject.R;
 
 public class RegisterActivity2 extends AppCompatActivity {
@@ -19,8 +21,6 @@ public class RegisterActivity2 extends AppCompatActivity {
     private WebView daum_webView;
     private TextView daum_result;
     private Handler handler;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +35,6 @@ public class RegisterActivity2 extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
 
         daum_result=(TextView) findViewById(R.id.daum_result);
 

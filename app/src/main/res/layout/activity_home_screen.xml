@@ -70,7 +70,7 @@
             app:layout_constraintTop_toBottomOf="@+id/nowTime1"></TextView>
 
         <TextView
-            android:id="@+id/textView9"
+            android:id="@+id/state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="224dp"

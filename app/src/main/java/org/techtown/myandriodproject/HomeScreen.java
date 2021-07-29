@@ -16,15 +16,27 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import java.util.Calendar;
 import java.util.Date;
 
 public class HomeScreen extends AppCompatActivity {
+    //영업시간 설정
+    private static final String OPEN = "8:30:00";
+    private static final String CLOSE = "19:30:00";
+
+    Date nowTime = null;
+    Date openTime = null;
+    Date closingTime = null;
+    int openCompare;
+    int closingCompare;
+
     TextView clock1, clock2;
     private static Handler handler;
     Toolbar toolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,41 +48,78 @@ public class HomeScreen extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        // 현재시각 불러오기
-        handler= new Handler(){
+        clock2=findViewById(R.id.nowTime2);
+
+        //오늘 날짜
+        clock1= findViewById(R.id.nowTime1);
+
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf1= new SimpleDateFormat("yyyy년 MM월 dd일");
+        String dateString = sdf1.format(cal.getTime());
+        clock1.setText(dateString);
+
+        //현재 시간
+        SimpleDateFormat sdf2= new SimpleDateFormat("HH:mm:ss");
+        SimpleDateFormat sdf3= new SimpleDateFormat("a hh시 mm분 ss초");
+        Thread th = new Thread(new Runnable() {
             @Override
-            public void handleMessage(Message msg){
-                Calendar cal= Calendar.getInstance();
-
-                SimpleDateFormat stf1= new SimpleDateFormat("yyyy년 MM월 dd일");
-                SimpleDateFormat stf2= new SimpleDateFormat("hh시 mm분 ss초");
-                String strTime1= stf1.format(cal.getTime());
-                String strTime2= stf2.format(cal.getTime());
-
-                clock1= findViewById(R.id.nowTime1);
-                clock1.setText(strTime1);
-                clock2= findViewById(R.id.nowTime2);
-                clock2.setText(strTime2);
-            }
-        };
-
-        class NewRunnable implements Runnable{
-            @Override
-            public void run(){
-                while(true){
-                    try{
-                        Thread.sleep(1000);
-                    }catch(Exception e){
+            public void run() {
+                while (!Thread.interrupted())
+                    try {
+                        Thread.sleep(100);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                String rightNow= getNowTime(sdf2);
+                                clock2.setText(getNowTime(sdf3));
+                                showMessage(sdf2,rightNow);
+                            }
+                        });
+                    } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    handler.sendEmptyMessage(0);
-                }
             }
+        });
+        th.start();
+    }
+
+    //현재시간 가져오기
+    public String getNowTime(SimpleDateFormat sdf) {
+        long time= System.currentTimeMillis();
+        Date now = new Date();
+        String nowString = sdf.format(new Date(time));
+
+        return nowString;
+    }
+
+    //현재시간,영업시간 비교
+    public void showMessage(SimpleDateFormat sdf, String nowString){
+        try {
+            nowTime = sdf.parse(nowString);
+            openTime = sdf.parse(OPEN);
+            closingTime = sdf.parse(CLOSE);
+            openCompare = nowTime.compareTo(openTime);
+            closingCompare = nowTime.compareTo(closingTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
 
-        NewRunnable nr= new NewRunnable();
-        Thread t=new Thread(nr);
-        t.start();
+        TextView state = findViewById(R.id.state);
+        //현재시간,영업시간 비교
+
+        if(openCompare>0){
+            if(closingCompare<0){
+                state.setText("전자출입명부 작성 중입니다.");
+            }else if(closingCompare>0){
+                state.setText("전자출입명부 작성 시간이 아닙니다.");
+            }else{
+                state.setText("영업이 종료되었습니다.");
+            }
+        }else if(openCompare<0){
+            state.setText("전자출입명부 작성 시간이 아닙니다.");
+        }else{
+            state.setText("영업이 시작되었습니다.");
+        }
     }
 
     // 옵션 메뉴 관련 메소드
