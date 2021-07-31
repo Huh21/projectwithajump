@@ -20,6 +20,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".CertifyActivity"> </activity>
+        <activity android:name=".CertifyActivity2"> </activity>
+        <activity android:name=".EntryActivity"> </activity>
+
+
     </application>
 
 </manifest>

@@ -55,8 +55,8 @@ public class MainActivity extends AppCompatActivity
             textview_address.setText(getGpsTracker());
         }
 
-        //Intent intentFromCertification = getIntent(); // 본인인증 화면으로부터 사용자명 받아오기
-        //user_name.setText(intentFromCertification.getStringExtra("사용자명"));
+        Intent intentFromCertification = getIntent(); // 본인인증 화면으로부터 사용자명 받아오기
+        user_name.setText(intentFromCertification.getStringExtra("사용자명"));
 
         //Intent intentFromOwner = getIntent(); // 등록된 사업자 리스트 받아오기
         // Facility facility = (Facility)intentFromOwner.getSerializableExtra("facility");
@@ -81,9 +81,9 @@ public class MainActivity extends AppCompatActivity
                     Toast.makeText(MainActivity.this, facilityName+" 입장", Toast.LENGTH_LONG).show();
 
                     // 해당 시설의 명부 화면으로 이동
-                    /*Intent secIntent = new Intent(this,.class);
+                    Intent secIntent = new Intent(getApplicationContext(), EntryActivity.class);
                     secIntent.putExtra("facilityName", facilityName);
-                    startActivity(secIntent); */
+                    startActivity(secIntent);
                 }
             }
         });
@@ -109,9 +109,9 @@ public class MainActivity extends AppCompatActivity
                         Toast.makeText(MainActivity.this, facilityName+" 입장", Toast.LENGTH_LONG).show();
 
                         // 해당 시설의 명부 화면으로 이동
-                        /*Intent secIntent = new Intent(this,.class);
+                        Intent secIntent = new Intent(getApplicationContext(), EntryActivity.class);
                          secIntent.putExtra("facilityName", facilityName);
-                         startActivity(secIntent); */
+                         startActivity(secIntent);
                     }
                 }
             }
