@@ -98,11 +98,11 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
-        android:layout_marginStart="42dp"
-        android:layout_marginLeft="42dp"
-        android:layout_marginTop="135dp"
-        android:layout_marginEnd="42dp"
-        android:layout_marginBottom="102dp" />
+        android:layout_marginStart="33dp"
+        android:layout_marginLeft="33dp"
+        android:layout_marginTop="91dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="146dp" />
 
 
 </RelativeLayout>
