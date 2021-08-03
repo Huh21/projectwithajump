@@ -7,9 +7,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import org.techtown.myandriodproject.R;
+
 public class registerActivity extends AppCompatActivity {
     Button nextbutton;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

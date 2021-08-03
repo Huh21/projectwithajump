@@ -7,8 +7,12 @@ import android.widget.Button;
 import android.content.Intent;
 import android.view.View;
 
+import org.techtown.myandriodproject.HomeScreen;
+import org.techtown.myandriodproject.R;
+
 public class MainActivity extends AppCompatActivity {
     Button registerButton;
+    Button loginButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +26,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent=new Intent(MainActivity.this, registerActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        loginButton=findViewById(R.id.login);
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent2=new Intent(MainActivity.this, HomeScreen.class);
+                startActivity(intent2);
             }
         });
 

@@ -16,6 +16,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import org.techtown.myandriodproject.BuildConfig;
+import org.techtown.myandriodproject.R;
+
 import java.io.File;
 
 

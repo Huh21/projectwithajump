@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import org.techtown.myandriodproject.R;
+
 public class RegisterActivity4 extends AppCompatActivity {
     Button nextbutton4;
 

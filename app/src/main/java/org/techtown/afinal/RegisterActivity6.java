@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import org.techtown.myandriodproject.R;
+
 public class RegisterActivity6 extends AppCompatActivity {
     Button button;
 

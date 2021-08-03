@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".RegisterActicity2">
+    android:layout_height="match_parent">
 
     <EditText
         android:id="@+id/editTextTextPersonName5"
@@ -86,7 +85,7 @@
         android:layout_marginRight="25dp"
         android:layout_marginBottom="95dp"
         android:text="다음"
-        app:backgroundTint="#009688" />
+        android:backgroundTint="#009688" />
 
     <WebView
         android:id="@+id/daum_webview"
@@ -98,11 +97,12 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
-        android:layout_marginStart="33dp"
-        android:layout_marginLeft="33dp"
-        android:layout_marginTop="91dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginBottom="146dp" />
+        android:layout_marginStart="42dp"
+        android:layout_marginLeft="42dp"
+        android:layout_marginTop="135dp"
+        android:layout_marginEnd="42dp"
+        android:layout_marginBottom="102dp"
+        android:layout_alignParentRight="true" />
 
 
 </RelativeLayout>

@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".registerActivity">
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/textView3"
@@ -124,5 +123,5 @@
         android:layout_marginRight="25dp"
         android:layout_marginBottom="95dp"
         android:text="다음"
-        app:backgroundTint="#009688" />
+        android:backgroundTint="#009688" />
 </RelativeLayout>
