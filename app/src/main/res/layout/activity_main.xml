@@ -58,18 +58,18 @@
         android:layout_marginRight="5dp" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName21"
+        android:id="@+id/email_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="206dp"
         android:ems="10"
-        android:hint="ID를 입력하세요."
+        android:hint="이메일을 입력하세요."
         android:inputType="textPersonName" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName22"
+        android:id="@+id/pwd_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
