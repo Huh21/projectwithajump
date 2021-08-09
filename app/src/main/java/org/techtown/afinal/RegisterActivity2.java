@@ -10,16 +10,14 @@ import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
-import org.techtown.myandriodproject.HomeScreen;
 import org.techtown.myandriodproject.R;
 
 public class RegisterActivity2 extends AppCompatActivity {
     Button nextbutton2;
     private WebView daum_webView;
-    private TextView daum_result;
+    private TextView daum_result_join;
     private Handler handler;
 
     @Override
@@ -36,7 +34,7 @@ public class RegisterActivity2 extends AppCompatActivity {
             }
         });
 
-        daum_result=(TextView) findViewById(R.id.daum_result);
+        daum_result_join=(TextView) findViewById(R.id.daum_result_join);
 
         init_webView();
 
@@ -58,7 +56,7 @@ public class RegisterActivity2 extends AppCompatActivity {
             handler.post(new Runnable() {
                 @Override
                 public void run() {
-                    daum_result.setText(String.format("(%s) %s %s", arg1, arg2, arg3));
+                    daum_result_join.setText(String.format("(%s) %s %s", arg1, arg2, arg3));
                     init_webView();
                 }
             });
